@@ -40,7 +40,7 @@ return {
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
-      luasnip.loaders.from_lua.lazy_load { paths = './Luasnip' }
+      require('luasnip.loaders.from_lua').lazy_load { paths = './Luasnip' }
 
       cmp.setup {
         snippet = {

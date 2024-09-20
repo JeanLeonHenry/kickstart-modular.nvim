@@ -6,7 +6,7 @@ return {
   'tpope/vim-fugitive',
   {
     'nvim-lualine/lualine.nvim',
-    config = {},
+    opts = {},
     dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
 }
