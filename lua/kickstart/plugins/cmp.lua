@@ -103,6 +103,16 @@ return {
 
           -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+          vim.keymap.set({ 'i', 's' }, '<C-E>', function()
+            if luasnip.choice_active() then
+              luasnip.change_choice(1)
+            end
+          end, { silent = true }),
+          vim.keymap.set({ 'i', 's' }, '<leader>sc', function()
+            if luasnip.choice_active() then
+              require 'luasnip.extras.select_choice'()
+            end
+          end, { silent = true, desc = '[S]earch snippet [C]hoices' }),
         },
         sources = {
           {
