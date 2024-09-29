@@ -74,4 +74,23 @@ return {
       }
     )
   ),
+  s(
+    { trig = 'plot', name = 'pgf plot', snippetType = 'snippet' },
+    fmta(
+      [[
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+no marks,
+grid=both,
+axis lines=center,
+]
+\addplot{<>};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+  ]],
+      { i(1, 'f(x)') }
+    )
+  ),
 }
