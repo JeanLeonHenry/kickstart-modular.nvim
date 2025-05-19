@@ -7,7 +7,7 @@ return {
     )
   ),
   s(
-    { trig = '([cC])ad', trigEngine = 'pattern', snippetType = 'autosnippet' },
+    { trig = '([cC])ad%s', trigEngine = 'pattern', snippetType = 'autosnippet' },
     f(function(args, snip)
       local prefix = snip.captures[1]
       return prefix .. "'est-à-dire "

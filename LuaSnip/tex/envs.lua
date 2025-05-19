@@ -25,6 +25,46 @@ local function inside_env(
   return sn(nil, t '')
 end
 
+local arbre = s(
+  { trig = 'arbre', name = 'arbre de probabilité', snippetType = 'snippet' },
+  fmta(
+    [[
+    \begin{center}
+	    \hfill~\begin{tikzpicture}[xscale=1,yscale=1,baseline={(R.base)}]
+		    % Styles (MODIFIABLES)
+		    \tikzstyle{fleche}=[->>,>>=latex,thick]
+		    \tikzstyle{noeud}=[fill=white,circle,inner sep=2pt]
+		    \tikzstyle{feuille}=[fill=white,circle,inner sep=2pt]
+		    \tikzstyle{etiquette}=[pos=0.6,fill=white, inner xsep=3pt, inner ysep=1.5pt]
+		    % Dimensions (MODIFIABLES)
+		    \def\DistanceInterNiveaux{3}
+		    \def\DistanceInterFeuilles{1}
+		    % Dimensions calculées (NON MODIFIABLES)
+		    \def\NiveauA{(0)*\DistanceInterNiveaux}
+		    \def\NiveauB{(1)*\DistanceInterNiveaux}
+		    \def\NiveauC{(2)*\DistanceInterNiveaux}
+		    \def\InterFeuilles{(-1)*\DistanceInterFeuilles}
+		    % Noeuds (MODIFIABLES : Styles et Coefficients d'InterFeuilles)
+		    \node[noeud] (R) at ({\NiveauA},{(1.5)*\InterFeuilles}) {};
+		    \node[noeud] (Ra) at ({\NiveauB},{(0.5)*\InterFeuilles})  {<>};
+		    \node[feuille] (Raa) at ({\NiveauC},{(0)*\InterFeuilles}) {<>};
+		    \node[feuille] (Rab) at ({\NiveauC},{(1)*\InterFeuilles}) {<>};
+		    \node[noeud] (Rb) at ({\NiveauB},{(2.5)*\InterFeuilles})  {<>};
+		    \node[feuille] (Rba) at ({\NiveauC},{(2)*\InterFeuilles}) {<>};
+		    \node[feuille] (Rbb) at ({\NiveauC},{(3)*\InterFeuilles}) {<>};
+		    % Arcs (MODIFIABLES : Styles)
+		    \draw[fleche] (R.east)--(Ra.west) node[etiquette]   {<>};
+		    \draw[fleche] (R.east)--(Rb.west) node[etiquette]   {<>};
+		    \draw[fleche] (Ra.east)--(Raa.west) node[etiquette] {<>};
+		    \draw[fleche] (Ra.east)--(Rab.west) node[etiquette] {<>};
+		    \draw[fleche] (Rb.east)--(Rba.west) node[etiquette] {<>};
+		    \draw[fleche] (Rb.east)--(Rbb.west) node[etiquette] {<>};
+	    \end{tikzpicture} \hfill~	\end{center}
+]],
+    { i(1, '$A$'), i(3, '$B$'), i(4, '$\\overline{B}$'), i(2, '$\\overline{A}$'), rep(3), rep(4), i(5), i(6), i(7), i(8), i(9), i(10) }
+  )
+)
+
 return {
   s(
     { trig = 'beg', name = 'Insert env', snippetType = 'autosnippet' },
@@ -34,7 +74,12 @@ return {
         <><>
       \end{<>}
       ]],
-      { c(1, { i(1, "nom de l'env"), t 'align*', t 'solution', t 'itemize', t 'enumerate', t 'questions' }), d(2, inside_env, { 1 }, {}), i(3), rep(1) }
+      {
+        c(1, { i(1, "nom de l'env"), t 'align*', t 'solution', t 'enumerate', t 'itemize', t 'questions', t 'pmatrix' }),
+        d(2, inside_env, { 1 }, {}),
+        i(3),
+        rep(1),
+      }
     )
   ),
   s(
@@ -93,4 +138,5 @@ axis lines=center,
       { i(1, 'f(x)') }
     )
   ),
+  arbre,
 }

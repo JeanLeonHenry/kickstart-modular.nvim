@@ -3,6 +3,14 @@ local in_mathzone = function()
   return vim.fn['vimtex#syntax#in_mathzone']() == 1
 end
 
+local is_giac_call = function(line_to_cursor)
+  return string.find(line_to_cursor, 'giac ')
+end
+
+local in_math_and_not_giac = function(line_to_cursor)
+  return in_mathzone() and not is_giac_call(line_to_cursor)
+end
+
 return {
   ---@diagnostic disable: undefined-global
   -- symboles
@@ -15,13 +23,21 @@ return {
   s({ trig = '!=', name = 'neq', wordTrig = false, snippetType = 'autosnippet' }, { t '\\neq ' }),
   s({ trig = 'oo', name = '∞', snippetType = 'autosnippet' }, fmta('<>\\infty', { c(1, { t '+', t '-' }) })),
   s({ trig = 'xx', name = 'times', snippetType = 'autosnippet' }, t '\\times '),
-  s({ trig = 'vv', name = 'vector arrow', snippetType = 'autosnippet' }, fmta('\\vect{<>}', { i(1) })),
+  s({ trig = 'vv', name = 'vector arrow', snippetType = 'autosnippet' }, fmta('\\vv{<>}', { i(1) })),
   s({ trig = '...', name = 'dots', snippetType = 'autosnippet' }, { t '\\dots ' }, { condition = in_mathzone }),
   s({ trig = '~~', name = 'approx', snippetType = 'autosnippet' }, { t '\\approx' }, { condition = in_mathzone }),
   -- opérateurs
-  s({ trig = 'sqrt', name = 'sqrt', snippetType = 'autosnippet' }, fmta('\\sqrt{<>}', { i(1) })),
-  s({ trig = 'in', name = 'in', snippetType = 'autosnippet' }, { t '\\in ' }, { condition = in_mathzone }),
-  s({ trig = 'int', name = 'integral' }, fmta('\\int_{<>}^{<>}<>\\d <>', { i(1, 'a'), i(2, 'b'), i(3, 'f(t)'), i(4, 't') }), { condition = in_mathzone }),
+  s({ trig = 'sqrt', name = 'sqrt', snippetType = 'autosnippet' }, fmta('\\sqrt{<>}', { i(1) }), {
+    condition = in_math_and_not_giac,
+  }),
+  s({ trig = 'ln', name = 'ln', snippetType = 'autosnippet' }, fmta('\\ln( <> )', { i(1) }), { condition = in_math_and_not_giac }),
+  s({ trig = 'bin', name = 'binom', snippetType = 'autosnippet' }, fmta('\\binom{<>}{<>}', { i(2), i(1) })),
+  s({ trig = 'inn', name = 'in', snippetType = 'autosnippet' }, { t '\\in ' }, { condition = in_mathzone }),
+  s(
+    { trig = 'iint', name = 'integral', snippetType = 'autosnippet' },
+    fmta('\\int_{<>}^{<>}<>\\d <>', { i(1, 'a'), i(2, 'b'), i(4, 'f'), i(3, 't') }),
+    { condition = in_mathzone }
+  ),
   s(
     { trig = 'lim', name = 'limit', snippetType = 'autosnippet' },
     fmta('\\lim_{<>\\to<>}<>', { i(1, 'x'), i(2, '+\\infty'), i(3, 'f(x)') }),
@@ -40,7 +56,7 @@ return {
   s({ trig = '**', name = 'superscript', wordTrig = false, snippetType = 'autosnippet' }, fmta('^{<>}', { i(1) }), { condition = in_mathzone }),
   s({ trig = '__', name = 'subscript', wordTrig = false, snippetType = 'autosnippet' }, fmta('_{<>}', { i(1) }), { condition = in_mathzone }),
   s(
-    { trig = '([CRQZNPEV])%1', trigEngine = 'pattern', name = 'bold font letters', snippetType = 'autosnippet' },
+    { trig = '([CRQZNPEVK])%1', trigEngine = 'pattern', name = 'bold font letters', snippetType = 'autosnippet' },
     f(function(args, snip)
       -- return '\\' .. snip.captures[1]
       return '\\mathbf{' .. snip.captures[1] .. '}'
@@ -72,12 +88,28 @@ return {
     }),
     { condition = in_mathzone } -- `condition` option passed in the snippet `opts` table
   ),
-  s({trig = 'exovar', name = 'etude de variation'}, fmta([[Dérivons $<>$ : soit $x\in \R$, on a alors
+  s(
+    { trig = 'exovar', name = 'etude de variation' },
+    fmta(
+      [[Dérivons $<>$ : soit $x\in \R$, on a alors
   \begin{align*}
   <>'(x)&=<>\\
   \end{align*}
   $<>'(x)$ est <>
   D'où le tableau suivant : 
   <>
-  ]], {i(1, 'f_1'), rep(1), i(2, 'calcul de la dérivée'), rep(1), i(3, 'etude du signe de la dérivée'), i(4, 'tabvar')}))
+  ]],
+      { i(1, 'f_1'), rep(1), i(2, 'calcul de la dérivée'), rep(1), i(3, 'etude du signe de la dérivée'), i(4, 'tabvar') }
+    )
+  ),
+  s(
+    { trig = 'giac (.*) giac', trigEngine = 'pattern', snippetType = 'autosnippet', desc = 'call giac to compute stuff directly from a tex buffer' },
+    f(function(_, parent)
+      local cmd = '/home/jean-leon/bettergiac.sh'
+      local input = parent.snippet.captures[1]
+      local output = vim.system({ cmd, input }, { text = true }):wait().stdout
+      return string.gsub(output, '\n$', '')
+    end, {})
+  ),
+  s({ trig = 'interv ' }, fmta('<><>;<><>', { c(1, { t '[', t ']' }), i(2, 'a'), i(3, 'b'), c(4, { t ']', t '[' }) }), { condition = in_mathzone }),
 }
