@@ -4,6 +4,7 @@ return {
     vim.g['test#strategy'] = 'neovim'
     vim.g['test#python#runner'] = 'pytest'
     vim.g['test#bash#runner'] = 'bats'
+    vim.g['test#javascript#denotest#options'] = '-A'
     vim.keymap.set('t', '<C-o>', '<C-\\><C-n>')
     vim.keymap.set('n', '<leader>tf', vim.cmd.TestFile, { desc = '[T]est [f]ile' })
     vim.keymap.set('n', '<leader>tn', vim.cmd.TestNearest, { desc = '[T]est [n]earest' })

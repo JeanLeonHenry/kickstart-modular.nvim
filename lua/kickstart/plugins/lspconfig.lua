@@ -172,6 +172,8 @@ return {
         pyright = {},
         eslint = {},
         bashls = {},
+        ruff = {},
+        ts_ls = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -179,7 +181,7 @@ return {
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = {},
+        -- ts_ls = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -225,6 +227,8 @@ return {
           end,
         },
       }
+
+      require('lspconfig').superhtml.setup {}
     end,
   },
 }

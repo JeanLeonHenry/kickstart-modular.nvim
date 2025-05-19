@@ -26,4 +26,5 @@ return {
     },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
+  'pixelneo/vim-python-docstring',
 }

@@ -31,10 +31,10 @@ return {
 
     -- Toggle previous & next buffers stored within Harpoon list
     vim.keymap.set('n', '<leader>kk', function()
-      harpoon:list():prev { ui_nav_wrap = false }
+      harpoon:list():prev { ui_nav_wrap = true }
     end, { desc = 'Harpoon prev' })
     vim.keymap.set('n', '<leader>jj', function()
-      harpoon:list():next { ui_nav_wrap = false }
+      harpoon:list():next { ui_nav_wrap = true }
     end, { desc = 'Harpoon next' })
   end,
 }
