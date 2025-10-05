@@ -14,8 +14,8 @@ end
 return {
   ---@diagnostic disable: undefined-global
   -- symboles
-  s({ trig = '>>', name = '≥', snippetType = 'autosnippet' }, { t '\\geq ' }, { condition = in_mathzone }),
-  s({ trig = '<<', name = '≤', snippetType = 'autosnippet' }, { t '\\leq ' }, { condition = in_mathzone }),
+  s({ trig = '>=', name = '≥', snippetType = 'autosnippet' }, { t '\\ge ' }, { condition = in_mathzone }),
+  s({ trig = '<=', name = '≤', snippetType = 'autosnippet' }, { t '\\le ' }, { condition = in_mathzone }),
   s({ trig = '->', name = 'to', snippetType = 'autosnippet' }, { t '\\to ' }),
   s({ trig = '=>', name = 'implies', snippetType = 'autosnippet' }, { t '\\implies ' }, { condition = in_mathzone }),
   s({ trig = 'iff', name = '⇔', snippetType = 'autosnippet' }, { t '\\iff ' }, { condition = in_mathzone }),
@@ -27,7 +27,7 @@ return {
   s({ trig = '...', name = 'dots', snippetType = 'autosnippet' }, { t '\\dots ' }, { condition = in_mathzone }),
   s({ trig = '~~', name = 'approx', snippetType = 'autosnippet' }, { t '\\approx' }, { condition = in_mathzone }),
   -- opérateurs
-  s({ trig = 'sqrt', name = 'sqrt', snippetType = 'autosnippet' }, fmta('\\sqrt{<>}', { i(1) }), {
+  s({ trig = 'rac', name = 'sqrt', snippetType = 'autosnippet' }, fmta('\\sqrt{<>}', { i(1) }), {
     condition = in_math_and_not_giac,
   }),
   s({ trig = 'ln', name = 'ln', snippetType = 'autosnippet' }, fmta('\\ln( <> )', { i(1) }), { condition = in_math_and_not_giac }),

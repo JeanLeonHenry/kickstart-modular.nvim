@@ -170,7 +170,7 @@ return {
         -- clangd = {},
         gopls = {},
         pyright = {},
-        eslint = {},
+        -- eslint = {},
         bashls = {},
         ruff = {},
         ts_ls = {},
