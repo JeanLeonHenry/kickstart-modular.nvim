@@ -214,7 +214,6 @@ return {
         -- eslint = {},
         bashls = {},
         ruff = {},
-        ts_ls = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -222,7 +221,7 @@ return {
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
 
         lua_ls = {
           -- cmd = { ... },
@@ -269,12 +268,12 @@ return {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            vim.lsp.config(server_name, server)
           end,
         },
       }
 
-      require('lspconfig').superhtml.setup {}
+      vim.lsp.config('superhtml', {})
     end,
   },
 }

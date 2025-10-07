@@ -30,6 +30,7 @@ return {
         end
       end,
       formatters_by_ft = {
+        typescript = { 'prettier' },
         lua = { 'stylua' },
         tex = { 'latexindent' },
         -- Conform can also run multiple formatters sequentially
